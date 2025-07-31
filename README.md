@@ -1,0 +1,1 @@
+A full-stack web application inspired by Airbnb, enabling users to browse, list, and book accommodation spaces. The project replicates core Airbnb features, including account registration, accommodation search and filter, detailed listing pages, booking management, and secure payment integration. Built using modern technologies and frameworks for both frontend and backend.
