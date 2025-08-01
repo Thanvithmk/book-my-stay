@@ -1,0 +1,107 @@
+.body{
+    font-family:"Plus Jakarta Sans", sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.navbar{
+    min-height: 5rem;
+    border-bottom: 1px solid #000000;
+    background-color: aliceblue;
+}
+
+.fa-earth-americas{
+    font-size: 2rem;
+    font-weight: bold;
+    color: #c31212;
+}
+
+.nav-link{
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #020202 !important;
+}
+
+/* Ensure navbar dropdown works properly */
+.navbar-collapse {
+    flex-grow: 1;
+}
+
+@media (max-width: 991.98px) {
+    .navbar-collapse {
+        background-color: aliceblue;
+        padding: 1rem 0;
+    }
+    
+    .navbar-nav {
+        text-align: center;
+    }
+}
+
+.footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0 1.2rem; /* Only column gap, no row gap */
+    text-align: center;
+    padding: 1.5rem 0.15rem; /* Increased vertical padding for more height */
+    background-color: #f8f9fa;
+    border-top: 1px solid #ddd;
+    font-size: 0.8rem; /* Slightly smaller font */
+    color: #222;
+    width: 100%;
+    min-height: 3rem; /* Increased min-height */
+}
+
+.footer-content {
+    display: inline;
+    margin: 0 0.15rem; /* Decreased margin */
+    font-weight: normal;
+    font-size: 0.8rem; /* Slightly smaller font */
+    color: #222;
+}
+
+.social-media {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.10rem; /* Decreased gap */
+    font-size: 0.9rem; /* Slightly smaller icons */
+    color: #222;
+    margin: 0 0.15rem; /* Decreased margin */
+}
+
+/*cars*/
+.card{
+    border:none !important;
+    border-radius: 0 !important;
+    margin-bottom: 2rem;
+    transition: all 0.3s ease;
+}
+
+.card:hover{
+    transform: translateY(-5px);
+}
+
+.card-img-top{
+    border-radius: 1rem !important;
+    width: 100% !important;
+    object-fit: cover !important;
+}
+
+.card-body{
+    padding: 0 !important;
+}
+
+.card-text{
+    font-weight:400 !important;
+}
+
+.card-text:hover{
+    color: #000000 !important;
+}
+
+.container{
+    flex: 1;
+}

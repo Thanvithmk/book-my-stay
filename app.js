@@ -23,6 +23,13 @@ app.use(express.urlencoded({extended:true}));
 const methodOverride=require('method-override');
 app.use(methodOverride('_method'));
 
+//ejs mate
+const ejsmate=require("ejs-mate");
+app.engine('ejs',ejsmate);
+
+//public folder
+app.use(express.static(path.join(__dirname,'public')));
+
 //routes
 app.get('/',(req,res)=>{
     res.send('Hello World');
