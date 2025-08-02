@@ -81,11 +81,6 @@ app.delete("/listings/:id",async(req,res)=>{
     res.redirect('/listings');
 })
 
-//404 route
-app.get('*',(req,res)=>{
-    res.send('404 Page Not Found');
-})
-
 app.listen(3000,()=>{
     console.log('Server is running on port 3000');
 });
