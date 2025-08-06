@@ -30,6 +30,9 @@ app.engine('ejs',ejsmate);
 //public folder
 app.use(express.static(path.join(__dirname,'public')));
 
+//utils
+const warpAsync=require('./utils/warpAsync');
+
 //routes
 app.get('/',(req,res)=>{
     res.send('Hello World');
@@ -47,11 +50,11 @@ app.get('/listings/new',(req,res)=>{
 })
 
 //create route
-app.post('/listings',async(req,res)=>{
+app.post('/listings',warpAsync(async(req,res)=>{
     let listing=req.body.listing;
     await new Listing(listing).save();
     res.redirect('/listings');
-})
+}))
 
 //edit route
 app.get("/listings/:id/edit",async(req,res)=>{
@@ -79,6 +82,10 @@ app.delete("/listings/:id",async(req,res)=>{
     const {id}=req.params;
     await Listing.findByIdAndDelete(id);
     res.redirect('/listings');
+})
+
+app.use((err,req,res,next)=>{
+    res.status(500).send('Something went wrong');
 })
 
 app.listen(3000,()=>{
