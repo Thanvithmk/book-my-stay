@@ -32,6 +32,7 @@ app.use(express.static(path.join(__dirname,'public')));
 
 //utils
 const warpAsync=require('./utils/warpAsync');
+const ExpressError=require('./utils/ExpressError');
 
 //routes
 app.get('/',(req,res)=>{
@@ -84,8 +85,16 @@ app.delete("/listings/:id",async(req,res)=>{
     res.redirect('/listings');
 })
 
+
+//404 error
+app.all('*',(req,res,next)=>{
+    next(new ExpressError('Page not found',404));
+})
+
+//error handling middleware
 app.use((err,req,res,next)=>{
-    res.status(500).send('Something went wrong');
+    const {statusCode=500,message='Something went wrong'}=err;
+    res.status(statusCode).send(message);
 })
 
 app.listen(3000,()=>{
