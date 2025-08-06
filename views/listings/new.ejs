@@ -5,33 +5,46 @@
     <form method="POST" action="/listings" class="needs-validation" novalidate>
         <div class="form-group">
             <label for="title" class="form-label">Title</label>
-            <input type="text" name="listing[title]" id="title" class="form-control" required><br><br>
+            <input type="text" name="listing[title]" id="title" class="form-control" required>
+            <div class="invalid-feedback">Please enter a title</div>
+            <div class="valid-feedback">Looks good!</div>
         </div>
         <div class="form-group">   
             <label for="description" class="form-label">Description</label>
-            <textarea name="listing[description]" id="description" class="form-control" required></textarea><br><br>
+            <textarea name="listing[description]" id="description" class="form-control" required></textarea>
+            <div class="invalid-feedback">Please enter a description</div>
+            <div class="valid-feedback">Looks good!</div>
         </div>
         <div class="form-group">    
             <label for="price" class="form-label">Price</label>
-            <input type="number" name="listing[price]" id="price" class="form-control" required><br><br>
+            <input type="number" name="listing[price]" id="price" class="form-control" required>
+            <div class="invalid-feedback">Please enter a price</div>
+            <div class="valid-feedback">Looks good!</div>
         </div>
         <div class="form-group">    
             <label for="image" class="form-label">Image URL</label>
-            <input type="text" name="listing[image][url]" id="image"  class="form-control"><br><br>
+            <input type="text" name="listing[image][url]" id="image"  class="form-control">
+            <div class="invalid-feedback">Please enter an image URL</div>
+            <div class="valid-feedback">Looks good!</div>
         </div>
         <div class="form-group">    
             <label for="country" class="form-label">Country</label>
-            <input type="text" name="listing[location][country]" id="country" class="form-control" required><br><br>
+            <input type="text" name="listing[location][country]" id="country" class="form-control" required>
+            <div class="invalid-feedback">Please enter a country</div>
+            <div class="valid-feedback">Looks good!</div>
         </div>
         <div class="form-group">
             <label for="city" class="form-label">City</label>
-            <input type="text" name="listing[location][city]" id="city" class="form-control" required><br><br>
+            <input type="text" name="listing[location][city]" id="city" class="form-control" required>
+            <div class="invalid-feedback">Please enter a city</div>
+            <div class="valid-feedback">Looks good!</div>
         </div>
         <div class="form-group">    
             <button class="btn btn-primary">Create Listing</button>
         </div>
         </form>
     </div>
+    
     <a href="/listings">Back to all listings</a>
 
 </div>

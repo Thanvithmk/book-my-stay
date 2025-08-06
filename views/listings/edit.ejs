@@ -2,34 +2,47 @@
 <div class="row">
     <div class="col-md-6 offset-md-3">
     <h3>Edit Listing</h3>
-    <form method="POST" action="/listings/<%=listing._id%>?_method=PUT">
+    <form method="POST" action="/listings/<%=listing._id%>?_method=PUT" class="needs-validation" novalidate>
         <div class="form-group">
             <label for="title" class="form-label">Title</label>
-            <input type="text" name="listing[title]" id="title" class="form-control" value="<%=listing.title%>" required><br><br>
+            <input type="text" name="listing[title]" id="title" class="form-control" value="<%=listing.title%>" required>
+            <div class="invalid-feedback">Please enter a title</div>
+            <div class="valid-feedback">Looks good!</div>
         </div>
         <div class="form-group">   
             <label for="description" class="form-label">Description</label>
-            <textarea name="listing[description]" id="description" class="form-control" required><%=listing.description%></textarea><br><br>
+            <textarea name="listing[description]" id="description" class="form-control" required><%=listing.description%></textarea>
+            <div class="invalid-feedback">Please enter a description</div>
+            <div class="valid-feedback">Looks good!</div>
         </div>
         <div class="form-group">    
             <label for="price" class="form-label">Price</label>
-            <input type="number" name="listing[price]" id="price" class="form-control" value="<%=listing.price%>" required><br><br>
+            <input type="number" name="listing[price]" id="price" class="form-control" value="<%=listing.price%>" required>
+            <div class="invalid-feedback">Please enter a price</div>
+            <div class="valid-feedback">Looks good!</div>
         </div>
         <div class="form-group">    
             <label for="image" class="form-label">Image URL</label>
-            <input type="text" name="listing[image][url]" id="image" class="form-control" value="<%=listing.image.url%>"><br><br>
+            <input type="text" name="listing[image][url]" id="image" class="form-control" value="<%=listing.image.url%>">
+            <div class="invalid-feedback">Please enter an image URL</div>
+            <div class="valid-feedback">Looks good!</div>
         </div>
         <div class="form-group">    
             <label for="country" class="form-label">Country</label>
-            <input type="text" name="listing[location][country]" id="country" class="form-control" value="<%=listing.location.country%>" required><br><br>
+            <input type="text" name="listing[location][country]" id="country" class="form-control" value="<%=listing.location.country%>" required>
+            <div class="invalid-feedback">Please enter a country</div>
+            <div class="valid-feedback">Looks good!</div>
         </div>
         <div class="form-group">
             <label for="city" class="form-label">City</label>
-            <input type="text" name="listing[location][city]" id="city" class="form-control" value="<%=listing.location.city%>" required><br><br>
+            <input type="text" name="listing[location][city]" id="city" class="form-control" value="<%=listing.location.city%>" required>
+            <div class="invalid-feedback">Please enter a city</div>
+            <div class="valid-feedback">Looks good!</div>
         </div>
         <div class="form-group">    
             <button class="btn btn-primary" type="submit">Update Listing</button>
         </div>
     </form>
+        <a href="/listings">Back to all listings</a>
 </div>
 </div>
