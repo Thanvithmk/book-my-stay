@@ -19,14 +19,14 @@
         <hr>
         <div class="col-8 offset-md-2">
             <h3>Reviews</h3>
-            <form >
+            <form method="POST" action="/listings/<%=listing._id%>/reviews">
                 <div class="mb-3 oddset-md-2">
                     <label for="rating" class="form-label">Rating</label>
-                    <input type="range" name="rating" min="0" max="5" step="1" value="5" class="form-range">
+                    <input type="range" name="review[rating]" min="0" max="5" step="1" value="5" class="form-range">
                 </div>
                 <div class="mb-3 oddset-md-2">
                     <label for="comment" class="form-label">Comment</label>
-                    <textarea name="comment" id="comment" class="form-control"></textarea>
+                    <textarea name="review[comment]" id="comment" class="form-control"></textarea>
                 </div>
                 <button type="submit" class="btn btn-outline-dark">Submit</button>
             </form>

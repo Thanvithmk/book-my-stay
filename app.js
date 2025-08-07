@@ -12,6 +12,7 @@ main();
 
 //models
 const Listing=require('./models/listing');
+const Review=require('./models/review');
 
 //ejs
 const path=require('path');
@@ -99,6 +100,15 @@ app.delete("/listings/:id",warpAsync(async(req,res)=>{
     res.redirect('/listings');
 }))
 
+//review route
+app.post("/listings/:id/reviews",warpAsync(async(req,res)=>{
+    let listing=await Listing.findById(req.params.id);
+    let newReview=new Review(req.body.review);
+    listing.reviews.push(newReview);
+    await newReview.save();
+    await listing.save();
+    res.redirect(`/listings/${listing._id}`);
+}))
 
 //404 error
 app.all('*',(req,res,next)=>{
