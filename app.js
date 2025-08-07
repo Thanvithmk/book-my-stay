@@ -34,16 +34,30 @@ app.use(express.static(path.join(__dirname,'public')));
 const warpAsync=require('./utils/warpAsync');
 const ExpressError=require('./utils/ExpressError');
 
+//schema
+const {listingSchema}=require('./schema');
+
+//joi validation
+const validateListing=(req,res,next)=>{
+    const {error}=listingSchema.validate(req.body);
+    if(error){
+        let errormsg=error.details.map(el=>el.message).join(',');
+        throw new ExpressError(errormsg,400);
+    }else{
+        next();
+    }
+}
+
 //routes
 app.get('/',(req,res)=>{
     res.send('Hello World');
 });
 
 //index route
-app.get('/listings',async(req,res)=>{
+app.get('/listings',warpAsync(async(req,res)=>{
     const allListings=await Listing.find({})
     res.render('listings/index.ejs',{allListings})
-})
+}))
 
 //new route
 app.get('/listings/new',(req,res)=>{
@@ -51,39 +65,39 @@ app.get('/listings/new',(req,res)=>{
 })
 
 //create route
-app.post('/listings',warpAsync(async(req,res)=>{
-    let listing=req.body.listing;
-    await new Listing(listing).save();
+app.post('/listings',validateListing,warpAsync(async(req,res)=>{
+    let newlisting=req.body.listing;
+    await new Listing(newlisting).save();
     res.redirect('/listings');
 }))
 
 //edit route
-app.get("/listings/:id/edit",async(req,res)=>{
+app.get("/listings/:id/edit",warpAsync(async(req,res)=>{
     const {id}=req.params;
     const listing=await Listing.findById(id);
     res.render('listings/edit.ejs',{listing})
-})
+}))
 
 //update route
-app.put("/listings/:id",async(req,res)=>{
+app.put("/listings/:id",validateListing,warpAsync(async(req,res)=>{
     const {id}=req.params;
     const listing=await Listing.findByIdAndUpdate(id,req.body.listing,{new:true});
     res.redirect(`/listings/${listing._id}`);
-})
+}))
 
 //show route
-app.get('/listings/:id',async(req,res)=>{
+app.get('/listings/:id',warpAsync(async(req,res)=>{
     const {id}=req.params;
     const listing=await Listing.findById(id);
     res.render('listings/show.ejs',{listing})
-});
+}))
 
 //delete route
-app.delete("/listings/:id",async(req,res)=>{
+app.delete("/listings/:id",warpAsync(async(req,res)=>{
     const {id}=req.params;
     await Listing.findByIdAndDelete(id);
     res.redirect('/listings');
-})
+}))
 
 
 //404 error
@@ -94,7 +108,8 @@ app.all('*',(req,res,next)=>{
 //error handling middleware
 app.use((err,req,res,next)=>{
     const {statusCode=500,message='Something went wrong'}=err;
-    res.status(statusCode).send(message);
+    res.status(statusCode).render('error.ejs',{message,statusCode});
+    //res.status(statusCode).send(message);
 })
 
 app.listen(3000,()=>{
