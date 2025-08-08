@@ -32,15 +32,27 @@ app.engine('ejs',ejsmate);
 app.use(express.static(path.join(__dirname,'public')));
 
 //utils
-const warpAsync=require('./utils/warpAsync');
+const warpAsync=require('./utils/warpAsync'); //to handle async errors in routes using try catch block 
 const ExpressError=require('./utils/ExpressError');
 
 //schema
-const {listingSchema}=require('./schema');
+const {listingSchema,reviewSchema}=require('./schema');
 
 //joi validation
+//listing validation
 const validateListing=(req,res,next)=>{
     const {error}=listingSchema.validate(req.body);
+    if(error){
+        let errormsg=error.details.map(el=>el.message).join(',');
+        throw new ExpressError(errormsg,400);
+    }else{
+        next();
+    }
+}
+
+//review validation
+const validateReview=(req,res,next)=>{
+    const {error}=reviewSchema.validate(req.body);
     if(error){
         let errormsg=error.details.map(el=>el.message).join(',');
         throw new ExpressError(errormsg,400);
@@ -84,31 +96,44 @@ app.put("/listings/:id",validateListing,warpAsync(async(req,res)=>{
     const {id}=req.params;
     const listing=await Listing.findByIdAndUpdate(id,req.body.listing,{new:true});
     res.redirect(`/listings/${listing._id}`);
-}))
+})
+);
 
 //show route
 app.get('/listings/:id',warpAsync(async(req,res)=>{
     const {id}=req.params;
-    const listing=await Listing.findById(id);
+    const listing=await Listing.findById(id).populate('reviews');
     res.render('listings/show.ejs',{listing})
-}))
+})
+);
 
 //delete route
 app.delete("/listings/:id",warpAsync(async(req,res)=>{
     const {id}=req.params;
     await Listing.findByIdAndDelete(id);
     res.redirect('/listings');
-}))
+})
+);
 
 //review route
-app.post("/listings/:id/reviews",warpAsync(async(req,res)=>{
+app.post("/listings/:id/reviews",validateReview,warpAsync(async(req,res)=>{
     let listing=await Listing.findById(req.params.id);
     let newReview=new Review(req.body.review);
     listing.reviews.push(newReview);
     await newReview.save();
     await listing.save();
     res.redirect(`/listings/${listing._id}`);
-}))
+})
+);
+
+//delete review route
+app.delete("/listings/:id/reviews/:reviewid",warpAsync(async(req,res)=>{
+    const {id,reviewid}=req.params;
+    await Review.findByIdAndDelete(reviewid);
+    await Listing.findByIdAndUpdate(id,{$pull:{reviews:reviewid}});
+    res.redirect(`/listings/${id}`);
+})
+);
 
 //404 error
 app.all('*',(req,res,next)=>{

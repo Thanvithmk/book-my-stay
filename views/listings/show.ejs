@@ -16,23 +16,46 @@
                 <button type="submit" class="btn btn-danger">Delete</button>
             </form>
         </div>
+
         <hr>
+        <!-- review form -->
         <div class="col-8 offset-md-2">
-            <h3>Reviews</h3>
-            <form method="POST" action="/listings/<%=listing._id%>/reviews">
+            <h3>Leave a review</h3>
+            <form method="POST" action="/listings/<%=listing._id%>/reviews" class="needs-validation" novalidate>
                 <div class="mb-3 oddset-md-2">
                     <label for="rating" class="form-label">Rating</label>
                     <input type="range" name="review[rating]" min="0" max="5" step="1" value="5" class="form-range">
                 </div>
                 <div class="mb-3 oddset-md-2">
                     <label for="comment" class="form-label">Comment</label>
-                    <textarea name="review[comment]" id="comment" class="form-control"></textarea>
+                    <textarea name="review[comment]" id="comment" class="form-control" required></textarea>
+                    <div class="invalid-feedback">Please enter a comment</div>
                 </div>
                 <button type="submit" class="btn btn-outline-dark">Submit</button>
             </form>
         </div>
+
+        <hr>
+        <p><b>All reviews</b></p>
+                <div class="row">
+                    <% for (let review of listing.reviews) { %>
+                        <div class="col-md-6 mb-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h6 class="card-title">Username</h6>
+                                    <p class="card-text"><%= review.comment %></p>
+                                    <p class="card-text"><%= review.rating %> Star</p>
+                                </div>
+                                <form class="card-footer" method="POST" action="/listings/<%=listing._id%>/reviews/<%=review._id%>?_method=DELETE">
+                                    <button class="btn btn-outline-danger">Delete</button>
+                                </form>
+                            </div>
+                        </div>
+                    <% } %>
+                </div>
+
         <div class="mt-2">
-            <a href="/listings">Back to all listings</a>
+            <button class="btn btn-outline-dark"><a href="/listings">Back to all listings</a></button>
         </div>
     </div>
 </div>
