@@ -96,6 +96,17 @@
 
 .card-text{
     font-weight:400 !important;
+    color: #000000 !important;
+}
+
+/* Override Bootstrap's default link color for card links */
+.listing-card a {
+    color: #000000 !important;
+    text-decoration: none !important;
+}
+
+.listing-card a:hover {
+    color: #000000 !important;
 }
 
 .card-text:hover{
