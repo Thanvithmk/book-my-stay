@@ -12,7 +12,7 @@ main();
 
 //ejs
 const path=require('path');
-app.set('view engine','ejs');
+app.set('view engine','ejs'); 
 app.set('views',path.join(__dirname,'views'));
 app.use(express.urlencoded({extended:true}));
 
@@ -21,11 +21,11 @@ const methodOverride=require('method-override');
 app.use(methodOverride('_method'));
 
 //ejs mate
-const ejsmate=require("ejs-mate");
+const ejsmate=require("ejs-mate"); 
 app.engine('ejs',ejsmate);
 
 //public folder
-app.use(express.static(path.join(__dirname,'public')));
+app.use(express.static(path.join(__dirname,'public'))); 
 
 //utils
 const ExpressError=require('./utils/ExpressError');
