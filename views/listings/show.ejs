@@ -12,10 +12,12 @@
             </div>
         </div>
         <div class="mt-3">
-            <a href="/listings/<%=listing._id%>/edit" class="btn btn-warning">Edit</a>
-            <form method="POST" action="/listings/<%=listing._id%>?_method=DELETE" style="display: inline;">
-                <button type="submit" class="btn btn-danger">Delete</button>
-            </form>
+            <% if(currUser && currUser._id.equals(listing.owner._id)){ %>
+                <a href="/listings/<%=listing._id%>/edit" class="btn btn-warning">Edit</a>
+                <form method="POST" action="/listings/<%=listing._id%>?_method=DELETE" style="display: inline;">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            <% } %>
         </div>
 
         <hr>

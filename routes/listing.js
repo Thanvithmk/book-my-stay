@@ -61,7 +61,7 @@ router.get("/:id/edit",isLoggedIn,wrapAsync(async(req,res)=>{
 //update route
 router.put("/:id",isLoggedIn,validateListing,wrapAsync(async(req,res)=>{
     const {id}=req.params;
-    const listing=await Listing.findByIdAndUpdate(id,req.body.listing,{new:true});
+    const listing=await Listing.findByIdAndUpdate(id,{...req.body.listing});
     req.flash('success','Successfully updated the listing');
     res.redirect(`/listings/${listing._id}`);
 })
