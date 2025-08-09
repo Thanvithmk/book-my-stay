@@ -1,6 +1,6 @@
 // Fixed: Conform to schema { title, description, image: { url }, price, location: { city, country } }
 
-const data = [
+const sampleListings = [
   {
     title: "Cozy Beachfront Cottage",
     description:
@@ -379,4 +379,4 @@ const data = [
     },
   },
 ];
-module.exports = { data };
+module.exports = { data : sampleListings};
