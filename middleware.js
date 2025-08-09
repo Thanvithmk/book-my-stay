@@ -1,4 +1,6 @@
 const Listing=require("./models/listing");
+const ExpressError=require("./utils/ExpressError");
+const {listingSchema,reviewSchema}=require("./schema");  //schema
 
 module.exports.isLoggedIn=(req,res,next)=>{
     if(!req.isAuthenticated()){
@@ -7,6 +9,29 @@ module.exports.isLoggedIn=(req,res,next)=>{
         return res.redirect('/login');
     }
     next();
+}
+
+//joi validation
+//listing validation
+module.exports.validateListing=(req,res,next)=>{
+    const {error}=listingSchema.validate(req.body);
+    if(error){
+        let errormsg=error.details.map(el=>el.message).join(',');
+        throw new ExpressError(errormsg,400);
+    }else{
+        next();
+    }
+}
+
+//review validation
+module.exports.validateReview=(req,res,next)=>{
+    const {error}=reviewSchema.validate(req.body);
+    if(error){
+        let errormsg=error.details.map(el=>el.message).join(',');
+        throw new ExpressError(errormsg,400);
+    }else{
+        next();
+    }
 }
 
 //code_id :thanv2.1 to prevent passport from changing originalUrl during login

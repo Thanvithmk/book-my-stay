@@ -5,25 +5,9 @@ const router=express.Router();
 const Listing=require('../models/listing');
 //utils
 const wrapAsync=require('../utils/warpAsync'); //to handle async errors in routes using try catch block 
-const ExpressError=require('../utils/ExpressError');
-
-//schema
-const {listingSchema}=require('../schema');
-
-//joi validation
-//listing validation
-const validateListing=(req,res,next)=>{
-    const {error}=listingSchema.validate(req.body);
-    if(error){
-        let errormsg=error.details.map(el=>el.message).join(',');
-        throw new ExpressError(errormsg,400);
-    }else{
-        next();
-    }
-}
 
 //middleware
-const {isLoggedIn,isOwner}=require('../middleware');
+const {isLoggedIn,isOwner,validateListing}=require('../middleware');
 
 //index route
 router.get('/',wrapAsync(async(req,res)=>{

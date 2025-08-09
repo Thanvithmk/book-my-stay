@@ -8,20 +8,8 @@ const Review=require('../models/review');
 //utils
 const wrapAsync=require('../utils/warpAsync'); //to handle async errors in routes using try catch block 
 
-//schema
-const {reviewSchema}=require('../schema');
-
-//joi validation
-//review validation
-const validateReview=(req,res,next)=>{
-    const {error}=reviewSchema.validate(req.body);
-    if(error){
-        let errormsg=error.details.map(el=>el.message).join(',');
-        throw new ExpressError(errormsg,400);
-    }else{
-        next();
-    }
-}
+//middleware
+const {validateReview}=require('../middleware');
 
 //review route
 router.post("/",validateReview,wrapAsync(async(req,res)=>{
