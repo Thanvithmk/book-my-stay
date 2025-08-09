@@ -3,6 +3,7 @@ const router=express.Router({});
 const User=require("../models/user"); //model for user
 const wrapAsync=require('../utils/warpAsync'); //to handle async errors in routes using try catch block 
 const passport=require("passport");
+const {isLoggedIn}=require("../middleware");
 
 router.get("/signup",(req,res)=>{
     res.render("users/signup"); //render the signup form
@@ -29,6 +30,16 @@ router.get("/login",(req,res)=>{
 router.post("/login",passport.authenticate("local",{failureRedirect:"/login",failureFlash:true}),(req,res)=>{
     req.flash("success","Welcome back");
     res.redirect("/listings");
+});
+
+router.get("/logout",isLoggedIn,(req,res,next)=>{
+    req.logout((err)=>{
+        if(err){
+            return next(err);
+        }
+        req.flash("success","Logged out successfully");
+        res.redirect("/listings");
+    })
 });
 
 module.exports=router;
