@@ -23,7 +23,7 @@ const validateListing=(req,res,next)=>{
 }
 
 //middleware
-const {isLoggedIn}=require('../middleware');
+const {isLoggedIn,isOwner}=require('../middleware');
 
 //index route
 router.get('/',wrapAsync(async(req,res)=>{
@@ -47,7 +47,7 @@ router.post('/',isLoggedIn,validateListing,wrapAsync(async(req,res)=>{
 );  
 
 //edit route
-router.get("/:id/edit",isLoggedIn,wrapAsync(async(req,res)=>{
+router.get("/:id/edit",isLoggedIn,isOwner,wrapAsync(async(req,res)=>{
     const {id}=req.params;
     const listing=await Listing.findById(id);
     if(!listing){
@@ -59,7 +59,7 @@ router.get("/:id/edit",isLoggedIn,wrapAsync(async(req,res)=>{
 );
 
 //update route
-router.put("/:id",isLoggedIn,validateListing,wrapAsync(async(req,res)=>{
+router.put("/:id",isLoggedIn,isOwner,validateListing,wrapAsync(async(req,res)=>{
     const {id}=req.params;
     const listing=await Listing.findByIdAndUpdate(id,{...req.body.listing});
     req.flash('success','Successfully updated the listing');
@@ -81,7 +81,7 @@ router.get('/:id',isLoggedIn,wrapAsync(async(req,res)=>{
 );
 
 //delete route
-router.delete("/:id",isLoggedIn,wrapAsync(async(req,res)=>{
+router.delete("/:id",isLoggedIn,isOwner,wrapAsync(async(req,res)=>{
     const {id}=req.params;
     await Listing.findByIdAndDelete(id);
     req.flash('success','Successfully deleted the listing');
