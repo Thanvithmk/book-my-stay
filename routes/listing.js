@@ -52,9 +52,11 @@ router.put("/:id",isLoggedIn,isOwner,validateListing,wrapAsync(async(req,res)=>{
 );
 
 //show route
-router.get('/:id',isLoggedIn,wrapAsync(async(req,res)=>{
+router.get('/:id',wrapAsync(async(req,res)=>{
     const {id}=req.params;
-    const listing=await Listing.findById(id).populate('reviews').populate('owner');
+    const listing=await Listing.findById(id)
+    .populate({path :'reviews',populate:{path:"author"}})  //id :thanv3.7 nested populate the author of the review
+    .populate('owner');
     if(!listing){
         req.flash('error','Listing not found');
         res.redirect('/listings');

@@ -9,12 +9,13 @@ const Review=require('../models/review');
 const wrapAsync=require('../utils/warpAsync'); //to handle async errors in routes using try catch block 
 
 //middleware
-const {validateReview}=require('../middleware');
+const {validateReview,isLoggedIn,isReviewAuthor}=require('../middleware');
 
 //review route
-router.post("/",validateReview,wrapAsync(async(req,res)=>{
+router.post("/",isLoggedIn,validateReview,wrapAsync(async(req,res)=>{
     let listing=await Listing.findById(req.params.id);
     let newReview=new Review(req.body.review);
+    newReview.author=req.user._id;   //id :thanv3.6 add the author id to the review
     listing.reviews.push(newReview);
     await newReview.save();
     await listing.save();
@@ -24,7 +25,7 @@ router.post("/",validateReview,wrapAsync(async(req,res)=>{
 );
 
 //delete review route
-router.delete("/:reviewid",wrapAsync(async(req,res)=>{
+router.delete("/:reviewid",isLoggedIn,isReviewAuthor,wrapAsync(async(req,res)=>{
     const {id,reviewid}=req.params;
     await Review.findByIdAndDelete(reviewid);
     await Listing.findByIdAndUpdate(id,{$pull:{reviews:reviewid}});

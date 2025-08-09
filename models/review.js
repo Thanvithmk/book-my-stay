@@ -13,6 +13,12 @@ const reviewSchema=new Schema({
     createdAt:{
         type:Date,
         default:Date.now
+    },
+    author:{
+        type:Schema.Types.ObjectId,
+        ref:"User" ,     //id :thanv3.5 add the author id to the review
+
+        
     }
 });
 
