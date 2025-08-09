@@ -38,8 +38,9 @@ router.get('/new',isLoggedIn,(req,res)=>{
 
 //create route
 router.post('/',isLoggedIn,validateListing,wrapAsync(async(req,res)=>{
-    let newlisting=req.body.listing;
-    await new Listing(newlisting).save();
+    let newlisting=new Listing(req.body.listing);
+    newlisting.owner=req.user._id; //id :thanv3.1 add the owner id to the listing
+    await newlisting.save();
     req.flash('success','Successfully created a new listing'); //flash message
     res.redirect('/listings');
 })
@@ -69,11 +70,12 @@ router.put("/:id",isLoggedIn,validateListing,wrapAsync(async(req,res)=>{
 //show route
 router.get('/:id',isLoggedIn,wrapAsync(async(req,res)=>{
     const {id}=req.params;
-    const listing=await Listing.findById(id).populate('reviews');
+    const listing=await Listing.findById(id).populate('reviews').populate('owner');
     if(!listing){
         req.flash('error','Listing not found');
         res.redirect('/listings');
     }
+    console.log(listing);
     res.render('listings/show.ejs',{listing})
 })
 );

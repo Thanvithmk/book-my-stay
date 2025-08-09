@@ -39,7 +39,7 @@ const listingSchema=new Schema({
             ref:'Review'    
         }
     ],
-    owner:{
+    owner:{  //id :thanv3.3 add the owner id to the listing
         type:Schema.Types.ObjectId,
         ref:"User"
     }
