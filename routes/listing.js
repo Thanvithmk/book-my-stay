@@ -37,20 +37,28 @@ router.get('/new',(req,res)=>{
 router.post('/',validateListing,warpAsync(async(req,res)=>{
     let newlisting=req.body.listing;
     await new Listing(newlisting).save();
+    req.flash('success','Successfully created a new listing'); //flash message
     res.redirect('/listings');
-}))
+})
+);  
 
 //edit route
 router.get("/:id/edit",warpAsync(async(req,res)=>{
     const {id}=req.params;
     const listing=await Listing.findById(id);
+    if(!listing){
+        req.flash('error','Cannot edit the listing');
+        res.redirect('/listings');
+    }   
     res.render('listings/edit.ejs',{listing})
-}))
+})
+);
 
 //update route
 router.put("/:id",validateListing,warpAsync(async(req,res)=>{
     const {id}=req.params;
     const listing=await Listing.findByIdAndUpdate(id,req.body.listing,{new:true});
+    req.flash('success','Successfully updated the listing');
     res.redirect(`/listings/${listing._id}`);
 })
 );
@@ -59,6 +67,10 @@ router.put("/:id",validateListing,warpAsync(async(req,res)=>{
 router.get('/:id',warpAsync(async(req,res)=>{
     const {id}=req.params;
     const listing=await Listing.findById(id).populate('reviews');
+    if(!listing){
+        req.flash('error','Listing not found');
+        res.redirect('/listings');
+    }
     res.render('listings/show.ejs',{listing})
 })
 );
@@ -67,6 +79,7 @@ router.get('/:id',warpAsync(async(req,res)=>{
 router.delete("/:id",warpAsync(async(req,res)=>{
     const {id}=req.params;
     await Listing.findByIdAndDelete(id);
+    req.flash('success','Successfully deleted the listing');
     res.redirect('/listings');
 })
 );

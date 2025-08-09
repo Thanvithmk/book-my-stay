@@ -30,6 +30,37 @@ app.use(express.static(path.join(__dirname,'public')));
 //utils
 const ExpressError=require('./utils/ExpressError');
 
+//session
+const session=require('express-session');
+
+const sessionOptions={
+    secret:'thisisnotagoodsecret',
+    resave:false,                //dont save session if nothing is changed
+    saveUninitialized:true,     //save session if nothing is changed
+    cookie:{
+        expires :Date.now()+7*24*60*60*1000, //7 days in milliseconds
+        maxAge:7*24*60*60*1000,
+        httpOnly:true,
+    }
+}
+//routes
+app.get('/',(req,res)=>{
+    res.send('Hello World');
+});
+
+//require flash messages
+const flash = require('connect-flash');
+
+app.use(session(sessionOptions));  //use session middleware to store session in cookie
+app.use(flash()); //flash messages should be written after session and before routes
+
+//use flash messages
+app.use((req,res,next)=>{
+    res.locals.success=req.flash("success");
+    res.locals.error=req.flash("error");
+    next();
+});
+
 //listing routes
 const listingRoutes=require('./routes/listing');
 app.use('/listings',listingRoutes);
@@ -37,11 +68,6 @@ app.use('/listings',listingRoutes);
 //review routes
 const reviewRoutes=require('./routes/review');
 app.use('/listings/:id/reviews',reviewRoutes);
-
-//routes
-app.get('/',(req,res)=>{
-    res.send('Hello World');
-});
 
 //404 error
 app.all('*',(req,res,next)=>{
