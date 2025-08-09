@@ -6,7 +6,7 @@ const Listing=require('../models/listing');
 const Review=require('../models/review');
 
 //utils
-const warpAsync=require('../utils/warpAsync'); //to handle async errors in routes using try catch block 
+const wrapAsync=require('../utils/warpAsync'); //to handle async errors in routes using try catch block 
 
 //schema
 const {reviewSchema}=require('../schema');
@@ -24,7 +24,7 @@ const validateReview=(req,res,next)=>{
 }
 
 //review route
-router.post("/",validateReview,warpAsync(async(req,res)=>{
+router.post("/",validateReview,wrapAsync(async(req,res)=>{
     let listing=await Listing.findById(req.params.id);
     let newReview=new Review(req.body.review);
     listing.reviews.push(newReview);
@@ -36,7 +36,7 @@ router.post("/",validateReview,warpAsync(async(req,res)=>{
 );
 
 //delete review route
-router.delete("/:reviewid",warpAsync(async(req,res)=>{
+router.delete("/:reviewid",wrapAsync(async(req,res)=>{
     const {id,reviewid}=req.params;
     await Review.findByIdAndDelete(reviewid);
     await Listing.findByIdAndUpdate(id,{$pull:{reviews:reviewid}});

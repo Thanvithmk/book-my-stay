@@ -69,21 +69,11 @@ app.use((req,res,next)=>{
     next();
 });
 
+
 //routes
 app.get('/',(req,res)=>{
     res.send('Hello World');
 });
-
-//user routes
-app.get("/demouser",async(req,res)=>{
-    let fakeuser=new User({
-        email:"fake@gmail.com",
-        username:"fakeuser"
-    });
-    const newUser=await User.register(fakeuser,"fakepassword"); //syntax for registering a user (user,password)
-    res.send(newUser);
-});
-
 
 //listing routes
 const listingRoutes=require('./routes/listing');
@@ -92,6 +82,10 @@ app.use('/listings',listingRoutes);
 //review routes
 const reviewRoutes=require('./routes/review');
 app.use('/listings/:id/reviews',reviewRoutes);
+
+//user routes
+const userRoutes=require('./routes/user');
+app.use('/',userRoutes);
 
 //404 error
 app.all('*',(req,res,next)=>{

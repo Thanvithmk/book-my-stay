@@ -4,7 +4,7 @@ const router=express.Router();
 //models
 const Listing=require('../models/listing');
 //utils
-const warpAsync=require('../utils/warpAsync'); //to handle async errors in routes using try catch block 
+const wrapAsync=require('../utils/warpAsync'); //to handle async errors in routes using try catch block 
 const ExpressError=require('../utils/ExpressError');
 
 //schema
@@ -23,7 +23,7 @@ const validateListing=(req,res,next)=>{
 }
 
 //index route
-router.get('/',warpAsync(async(req,res)=>{
+router.get('/',wrapAsync(async(req,res)=>{
     const allListings=await Listing.find({})
     res.render('listings/index.ejs',{allListings})
 }))
@@ -34,7 +34,7 @@ router.get('/new',(req,res)=>{
 })
 
 //create route
-router.post('/',validateListing,warpAsync(async(req,res)=>{
+router.post('/',validateListing,wrapAsync(async(req,res)=>{
     let newlisting=req.body.listing;
     await new Listing(newlisting).save();
     req.flash('success','Successfully created a new listing'); //flash message
@@ -43,7 +43,7 @@ router.post('/',validateListing,warpAsync(async(req,res)=>{
 );  
 
 //edit route
-router.get("/:id/edit",warpAsync(async(req,res)=>{
+router.get("/:id/edit",wrapAsync(async(req,res)=>{
     const {id}=req.params;
     const listing=await Listing.findById(id);
     if(!listing){
@@ -55,7 +55,7 @@ router.get("/:id/edit",warpAsync(async(req,res)=>{
 );
 
 //update route
-router.put("/:id",validateListing,warpAsync(async(req,res)=>{
+router.put("/:id",validateListing,wrapAsync(async(req,res)=>{
     const {id}=req.params;
     const listing=await Listing.findByIdAndUpdate(id,req.body.listing,{new:true});
     req.flash('success','Successfully updated the listing');
@@ -64,7 +64,7 @@ router.put("/:id",validateListing,warpAsync(async(req,res)=>{
 );
 
 //show route
-router.get('/:id',warpAsync(async(req,res)=>{
+router.get('/:id',wrapAsync(async(req,res)=>{
     const {id}=req.params;
     const listing=await Listing.findById(id).populate('reviews');
     if(!listing){
@@ -76,7 +76,7 @@ router.get('/:id',warpAsync(async(req,res)=>{
 );
 
 //delete route
-router.delete("/:id",warpAsync(async(req,res)=>{
+router.delete("/:id",wrapAsync(async(req,res)=>{
     const {id}=req.params;
     await Listing.findByIdAndDelete(id);
     req.flash('success','Successfully deleted the listing');
