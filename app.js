@@ -2,6 +2,11 @@ const express=require('express');
 const app=express();
 const mongoose=require('mongoose');
 
+//authentication
+const passport =require('passport');
+const LocalStrategy =require('passport-local');
+const User=require('./models/user');
+
 //connect to mongodb and create database
 async function main(){
     await mongoose.connect('mongodb://localhost:27017/wanderlust');
@@ -32,7 +37,6 @@ const ExpressError=require('./utils/ExpressError');
 
 //session
 const session=require('express-session');
-
 const sessionOptions={
     secret:'thisisnotagoodsecret',
     resave:false,                //dont save session if nothing is changed
@@ -43,10 +47,6 @@ const sessionOptions={
         httpOnly:true,
     }
 }
-//routes
-app.get('/',(req,res)=>{
-    res.send('Hello World');
-});
 
 //require flash messages
 const flash = require('connect-flash');
@@ -54,12 +54,36 @@ const flash = require('connect-flash');
 app.use(session(sessionOptions));  //use session middleware to store session in cookie
 app.use(flash()); //flash messages should be written after session and before routes
 
+//using passport for authentication
+app.use(passport.initialize());
+app.use(passport.session()); //session middleware should be written after passport middleware
+passport.use(new LocalStrategy(User.authenticate()));
+//serialize and deserialize user to and from session 
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 //use flash messages
 app.use((req,res,next)=>{
     res.locals.success=req.flash("success");
     res.locals.error=req.flash("error");
     next();
 });
+
+//routes
+app.get('/',(req,res)=>{
+    res.send('Hello World');
+});
+
+//user routes
+app.get("/demouser",async(req,res)=>{
+    let fakeuser=new User({
+        email:"fake@gmail.com",
+        username:"fakeuser"
+    });
+    const newUser=await User.register(fakeuser,"fakepassword"); //syntax for registering a user (user,password)
+    res.send(newUser);
+});
+
 
 //listing routes
 const listingRoutes=require('./routes/listing');
