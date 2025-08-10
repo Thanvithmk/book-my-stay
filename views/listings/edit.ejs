@@ -26,6 +26,9 @@
         </div>
         <div class="form-group">    
             <label for="image" class="form-label">Upload Image</label>
+            <div>
+                <img src="<%=originalImgUrl%>" alt="<%=listing.title%>" class="img-fluid">
+            </div>
             <input type="file" name="listing[image]" id="image"  class="form-control">
             <div class="invalid-feedback">please upload an image</div>
             <div class="valid-feedback">Looks good!</div>

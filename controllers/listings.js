@@ -39,9 +39,11 @@ module.exports.renderEditForm=async(req,res)=>{
     if(!listing){
         req.flash('error','Cannot edit the listing');
         res.redirect('/listings');
-    }   
-    res.render('listings/edit.ejs',{listing})
-}
+    } 
+    let originalImgUrl=listing.image.url;
+    originalImgUrl=originalImgUrl.replace("/upload","/upload/h_300,w_250")
+    res.render('listings/edit.ejs',{listing,originalImgUrl})
+} 
 
 module.exports.updateListing=async(req,res)=>{
     const {id}=req.params;
