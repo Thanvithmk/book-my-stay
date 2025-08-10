@@ -13,11 +13,8 @@ const listingSchema=new Schema({
         required:true
     },
     image:{
-        url:{
-            type:String,
-            default:'https://images.unsplash.com/photo-1506744038136-46273834b3fb',
-            set: (v) => v === "" ? "https://images.unsplash.com/photo-1506744038136-46273834b3fb" : v
-        }
+        url:String,
+        filename:String
     },
     price:{
         type:Number,

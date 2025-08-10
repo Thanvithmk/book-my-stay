@@ -12,6 +12,13 @@ const {isLoggedIn,isOwner,validateListing}=require('../middleware');
 //controllers
 const listingController=require('../controllers/listings');
 
+//multer
+const multer=require('multer');
+
+//cloudinary
+const {storage}=require('../cloudConfig');
+
+const upload=multer({storage});  //to store the uploaded files in the uploads folder
 
 //index route
 router.get('/',wrapAsync(listingController.index))
@@ -20,7 +27,7 @@ router.get('/',wrapAsync(listingController.index))
 router.get('/new',isLoggedIn,listingController.renderNewForm);
 
 //create route
-router.post('/',isLoggedIn,validateListing,wrapAsync(listingController.createListing));  
+router.post('/',isLoggedIn,upload.single('listing[image]'),wrapAsync(listingController.createListing));  
 
 //show route
 router.get('/:id',wrapAsync(listingController.showListing));
