@@ -53,6 +53,10 @@
     color: #222;
     width: 100%;
     min-height: 3rem; /* Increased min-height */
+    margin-bottom: 0;
+    border-bottom: 1px solid #000;
+    background: #fff;
+    z-index: 1000;
 }
 
 .footer-content {
@@ -131,4 +135,20 @@
 
 .container{
     flex: 1;
+}
+
+/* Ensure the main content area has proper spacing */
+main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Alternative approach: use sticky footer instead of fixed */
+.footer-sticky {
+    margin-top: auto; /* Push footer to bottom using flexbox */
+    width: 100%;
+    background-color: #f8f9fa;
+    border-top: 1px solid #ddd;
+    z-index: 1000;
 }
