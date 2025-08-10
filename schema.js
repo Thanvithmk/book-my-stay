@@ -8,13 +8,12 @@ const listingSchema=Joi.object({
         description:Joi.string().required(),
         price:Joi.number().required().min(0),
         image:Joi.string().allow(''),
-        city:Joi.string().required(),
+        location:Joi.string().required(),
         country:Joi.string().required()
         })
 })
 
 //schema for review
-
 const reviewSchema=Joi.object({
     review:Joi.object().required({
         rating:Joi.number().required().min(1).max(5),
