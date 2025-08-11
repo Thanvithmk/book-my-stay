@@ -12,11 +12,11 @@ const LocalStrategy =require('passport-local');
 const User=require('./models/user');
 
 //connect to mongodb and create database
+const dbUrl=process.env.ATLASDB_URL
 async function main(){
-    await mongoose.connect('mongodb://localhost:27017/wanderlust');
+    await mongoose.connect(dbUrl);
     console.log('Connected to MongoDB');
 }
-
 main();
 
 //ejs
@@ -39,10 +39,25 @@ app.use(express.static(path.join(__dirname,'public')));
 //utils
 const ExpressError=require('./utils/ExpressError');
 
+const MongoStore=require('connect-mongo');  //cloud mongo db **
+
+const store=MongoStore.create({
+    mongoUrl:dbUrl,
+    crypto:{
+        secret:process.env.SECRET
+    },
+    touchAfter:24*3600,      //touch after 24 hours to keep session alive (in seconds)
+})
+//error handling for session store
+store.on('error',function(e){
+    console.log('SESSION STORE ERROR',e);
+})
+
 //session
 const session=require('express-session');
 const sessionOptions={
-    secret:'thisisnotagoodsecret',
+    store,
+    secret:process.env.SECRET,
     resave:false,                //dont save session if nothing is changed
     saveUninitialized:true,     //save session if nothing is changed
     cookie:{
