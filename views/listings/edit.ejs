@@ -33,6 +33,27 @@
             <div class="invalid-feedback">please upload an image</div>
             <div class="valid-feedback">Looks good!</div>
         </div>
+        <div class="form-group">
+            <label for="category" class="form-label">Category</label>
+            <select name="listing[category]" id="category" class="form-control" required>
+                <option value="Trending">Trending</option>
+                <option value="Rooms">Rooms</option>
+                <option value="Iconic cities">Iconic cities</option>
+                <option value="Mountains">Mountains</option>
+                <option value="Castles">Castles</option>
+                <option value="Amazing pools">Amazing pools</option>
+                <option value="Camping">Camping</option>
+                <option value="Farm stays">Farm stays</option>
+                <option value="Arctic">Arctic</option>
+                <option value="Forest">Forest</option>
+                <option value="Beach">Beach</option>
+                <option value="Desert">Desert</option>
+                <option value="Cabins">Cabins</option>
+                <option value="Tiny homes">Tiny homes</option>
+            </select>
+            <div class="invalid-feedback">Please select a category</div>
+            <div class="valid-feedback">Looks good!</div>
+        </div>
         <div class="form-group">    
             <label for="country" class="form-label">Country</label>
             <input type="text" name="listing[country]" id="country" class="form-control" value="<%=listing.country%>" required>
