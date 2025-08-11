@@ -74,11 +74,6 @@ app.use((req,res,next)=>{
     next();
 });
 
-//routes
-app.get('/',(req,res)=>{
-    res.send('Hello World');
-});
-
 //listing routes
 const listingRoutes=require('./routes/listing');
 app.use('/listings',listingRoutes);
