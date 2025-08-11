@@ -44,4 +44,7 @@ router.put("/:id",isLoggedIn,isOwner,
 //delete route
 router.delete("/:id",isLoggedIn,isOwner,wrapAsync(listingController.deleteListing));
 
+//filter route
+router.post('/filter',wrapAsync(listingController.filterListings));
+
 module.exports=router;

@@ -5,7 +5,7 @@ const geocodingClient=mbxGeocoding({accessToken:mapToken});
 
 module.exports.index=async(req,res)=>{
     const allListings=await Listing.find({})
-    res.render('listings/index.ejs',{allListings})
+    res.render('listings/index.ejs',{allListings, selectedCategory: null})
 }
 
 module.exports.renderNewForm=(req,res)=>{
@@ -70,6 +70,20 @@ module.exports.updateListing=async(req,res)=>{
     }
     req.flash('success','Successfully updated the listing');
     res.redirect(`/listings/${listing._id}`);
+}
+
+module.exports.filterListings=async(req,res)=>{
+    const {category}=req.body;
+    console.log("Filtering by category:", category);
+    
+    if(!category) {
+        req.flash('error','Please select a category to filter');
+        return res.redirect('/listings');
+    }
+    
+    const listings=await Listing.find({category: category});
+    console.log(`Found ${listings.length} listings for category: ${category}`);
+    res.render('listings/index.ejs',{allListings: listings, selectedCategory: category})
 }
 
 module.exports.deleteListing=async(req,res)=>{
