@@ -6,13 +6,27 @@
     margin-right: 2rem;
     text-align: center;
     opacity: 0.7;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    transition: all 0.3s ease;
   }
   .filter:hover{
     opacity: 1;
-    cursor:pointer;
+    background-color: #f8f9fa;
+    transform: translateY(-2px);
+  }
+  .filter.active {
+    opacity: 1;
+    background-color: #007bff;
+    color: white;
+  }
+  .filter.active:hover {
+    background-color: #0056b3;
   }
   .filter p{
     font-size:0.8rem;
+    margin: 0;
   }
   #filters{
     display: flex;
@@ -32,64 +46,158 @@
     display:flex;
     align-items: center;
   }
+  .filter-form {
+    margin: 0;
+  }
+  .filter-form button {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    width: 100%;
+  }
+  .filter-results {
+    margin: 1rem 0;
+    padding: 0.5rem 1rem;
+    background-color: #e9ecef;
+    border-radius: 0.5rem;
+    font-weight: bold;
+  }
 </style>
-    <div id="filters">
-      <div class="filter">
+
+<% if(selectedCategory) { %>
+  <div class="filter-results">
+    Showing results for: <span style="color: #007bff;"><%= selectedCategory %></span>
+    <a href="/listings" class="btn btn-sm btn-outline-secondary ms-3">Show All</a>
+  </div>
+<% } %>
+
+<div id="filters">
+  <form method="POST" action="/listings/filter" class="filter-form">
+    <button type="submit" name="category" value="Trending">
+      <div class="filter <%= selectedCategory === 'Trending' ? 'active' : '' %>">
         <div><i class="fa-solid fa-fire"></i></div>
         <p>Trending</p>
       </div>
-      <div class="filter">
+    </button>
+  </form>
+
+  <form method="POST" action="/listings/filter" class="filter-form">
+    <button type="submit" name="category" value="Rooms">
+      <div class="filter <%= selectedCategory === 'Rooms' ? 'active' : '' %>">
         <div><i class="fa-solid fa-bed"></i></div>
         <p>Rooms</p>
       </div>
-      <div class="filter">
+    </button>
+  </form>
+
+  <form method="POST" action="/listings/filter" class="filter-form">
+    <button type="submit" name="category" value="Iconic cities">
+      <div class="filter <%= selectedCategory === 'Iconic cities' ? 'active' : '' %>">
         <div><i class="fa-solid fa-mountain-city"></i></div>
         <p>Iconic cities</p>
       </div>
-      <div class="filter">
+    </button>
+  </form>
+
+  <form method="POST" action="/listings/filter" class="filter-form">
+    <button type="submit" name="category" value="Mountains">
+      <div class="filter <%= selectedCategory === 'Mountains' ? 'active' : '' %>">
         <div><i class="fa-solid fa-mountain"></i></div>
         <p>Mountains</p>
       </div>
-      <div class="filter">
+    </button>
+  </form>
+
+  <form method="POST" action="/listings/filter" class="filter-form">
+    <button type="submit" name="category" value="Castles">
+      <div class="filter <%= selectedCategory === 'Castles' ? 'active' : '' %>">
         <div><i class="fa-solid fa-chess-rook"></i></div>
         <p>Castles</p>
       </div>
-      <div class="filter">
+    </button>
+  </form>
+
+  <form method="POST" action="/listings/filter" class="filter-form">
+    <button type="submit" name="category" value="Amazing pools">
+      <div class="filter <%= selectedCategory === 'Amazing pools' ? 'active' : '' %>">
         <div><i class="fa-solid fa-person-swimming"></i></div>
         <p>Amazing pools</p>
       </div>
-      <div class="filter">
+    </button>
+  </form>
+
+  <form method="POST" action="/listings/filter" class="filter-form">
+    <button type="submit" name="category" value="Camping">
+      <div class="filter <%= selectedCategory === 'Camping' ? 'active' : '' %>">
         <div><i class="fa-solid fa-campground"></i></div>
         <p>Camping</p>
       </div>
-      <div class="filter">
+    </button>
+  </form>
+
+  <form method="POST" action="/listings/filter" class="filter-form">
+    <button type="submit" name="category" value="Farm stays">
+      <div class="filter <%= selectedCategory === 'Farm stays' ? 'active' : '' %>">
         <div><i class="fa-solid fa-cow"></i></div>
         <p>Farm stays</p>
       </div>
-      <div class="filter">
+    </button>
+  </form>
+
+  <form method="POST" action="/listings/filter" class="filter-form">
+    <button type="submit" name="category" value="Arctic">
+      <div class="filter <%= selectedCategory === 'Arctic' ? 'active' : '' %>">
         <div><i class="fa-solid fa-snowflake"></i></div>
         <p>Arctic</p>
       </div>
-      <div class="filter">
+    </button>
+  </form>
+
+  <form method="POST" action="/listings/filter" class="filter-form">
+    <button type="submit" name="category" value="Forest">
+      <div class="filter <%= selectedCategory === 'Forest' ? 'active' : '' %>">
         <div><i class="fa-solid fa-tree"></i></div>
         <p>Forest</p>
       </div>
-      <div class="filter">
+    </button>
+  </form>
+
+  <form method="POST" action="/listings/filter" class="filter-form">
+    <button type="submit" name="category" value="Beach">
+      <div class="filter <%= selectedCategory === 'Beach' ? 'active' : '' %>">
         <div><i class="fa-solid fa-umbrella-beach"></i></div>
         <p>Beach</p>
       </div>
-      <div class="filter">
+    </button>
+  </form>
+
+  <form method="POST" action="/listings/filter" class="filter-form">
+    <button type="submit" name="category" value="Cabins">
+      <div class="filter <%= selectedCategory === 'Cabins' ? 'active' : '' %>">
         <div><i class="fa-solid fa-house-circle-check"></i></div>
         <p>Cabins</p>
       </div>
-      <div class="tax-toggle">
-        <div class="form-check form-switch">
-          <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" role="switch">
-          <label class="form-check-label" for="flexSwitchCheckDefault">Display total after taxes</label>
-        </div>
-      </div>
+    </button>
+  </form>
 
+  <form method="POST" action="/listings/filter" class="filter-form">
+    <button type="submit" name="category" value="Tiny homes">
+      <div class="filter <%= selectedCategory === 'Tiny homes' ? 'active' : '' %>">
+        <div><i class="fa-solid fa-house-circle-check"></i></div>
+        <p>Tiny homes</p>
+      </div>
+    </button>
+  </form>
+
+  <div class="tax-toggle">
+    <div class="form-check form-switch">
+      <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" role="switch">
+      <label class="form-check-label" for="flexSwitchCheckDefault">Display total after taxes</label>
     </div>
+  </div>
+</div>
+
         <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-5">
             <%for(let listing of allListings){%>
                 <a href="/listings/<%=listing._id%>" class="text-decoration-none">

@@ -5,12 +5,13 @@
 </script>
 <div class="row">
     <div class="col-md-6 offset-md-3">
-        <p class="card-text"><%=listing.title%></p>
+        <p class="card-text"><%=listing.title%> <span class="badge rounded-pill text-bg-info"><%=listing.category%></span></p>
         <div class="card" style="width: 100%;">
             <img src="<%=listing.image.url%>" class="card-img-top" alt="Listing Image" style="height: 20rem; object-fit: cover;">
             <div class="card-body">
                 <p class="card-text"><i>Owned by <%=listing.owner.username%></i></p> <!--id :thanv3.2 display the owner username-->
                 <p class="card-text"><%=listing.description%></p>
+                
                 <p class="card-text">&#8377;<%=listing.price%></p>
                 <p class="card-text"><%=listing.location%></p>
             </div>
